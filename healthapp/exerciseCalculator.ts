@@ -1,6 +1,11 @@
 import { parseArguments } from './utils.ts';
 
-interface ExerciseRating {
+export interface ExercisePlan {
+  daily_exercises: string[],
+  target: string
+}
+
+export interface ExerciseRating {
   periodLength: number,
   trainingDays: number,
   success: boolean,
@@ -18,7 +23,7 @@ const getRating = (diff: number): number => {
 const getRatingDescription = (rating: number): string => {
   if (rating == 3) return 'amazing plan, let\'s go!';
   if (rating == 2) return 'not too bad but could be better';
-  return 'please improve your plan';
+  return 'bad';
 };
 
 export const calculateExercises = (period : number[], target: number): ExerciseRating => {
@@ -39,11 +44,13 @@ export const calculateExercises = (period : number[], target: number): ExerciseR
   };
 };
 
-try {
-  const [target, ...period] = parseArguments(process.argv, 0);
-  console.log(calculateExercises(period, target));
-} catch (error: unknown) {
-  let errorMessage = 'Something bad happend.';
-  if (error instanceof Error) errorMessage += ' Error: ' + error.message;
-  console.log(errorMessage);
+if (process.argv[1] === import.meta.filename) {
+  try {
+    const [target, ...period] = parseArguments(process.argv, 0);
+    console.log(calculateExercises(period, target));
+  } catch (error: unknown) {
+    let errorMessage = 'Something bad happend.';
+    if (error instanceof Error) errorMessage += ' Error: ' + error.message;
+    console.log(errorMessage);
+  }
 }
