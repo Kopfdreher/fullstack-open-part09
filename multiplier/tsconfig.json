@@ -3,6 +3,7 @@
     "target": "esnext",
     "noEmit": true,
     "noUnusedLocals": true,
+    "noImplicitAny": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
