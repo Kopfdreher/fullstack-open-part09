@@ -1,4 +1,4 @@
-import { parseArguments } from './utils.ts'
+import { parseArguments } from './utils.ts';
 
 interface ExerciseRating {
   periodLength: number,
@@ -11,15 +11,15 @@ interface ExerciseRating {
 }
 const getRating = (diff: number): number => {
   if (diff < 0) return 3;
-  if (diff < 1) return 2
-  return 1
-}
+  if (diff < 1) return 2;
+  return 1;
+};
 
 const getRatingDescription = (rating: number): string => {
   if (rating == 3) return 'amazing plan, let\'s go!';
   if (rating == 2) return 'not too bad but could be better';
   return 'please improve your plan';
-}
+};
 
 export const calculateExercises = (period : number[], target: number): ExerciseRating => {
   const periodLength = period.length;
@@ -36,14 +36,14 @@ export const calculateExercises = (period : number[], target: number): ExerciseR
     ratingDescription,
     target,
     average
-  }
-}
+  };
+};
 
 try {
-  const [target, ...period] = parseArguments(process.argv, 0)
-  console.log(calculateExercises(period, target))
+  const [target, ...period] = parseArguments(process.argv, 0);
+  console.log(calculateExercises(period, target));
 } catch (error: unknown) {
-  let errorMessage = 'Something bad happend.'
-  if (error instanceof Error) errorMessage += ' Error: ' + error.message
-  console.log(errorMessage)
+  let errorMessage = 'Something bad happend.';
+  if (error instanceof Error) errorMessage += ' Error: ' + error.message;
+  console.log(errorMessage);
 }
