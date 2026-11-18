@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "types": ["node"],
+    "allowImportingTsExtensions": true,
     "noImplicitAny": true,
     "noEmit": true
   }

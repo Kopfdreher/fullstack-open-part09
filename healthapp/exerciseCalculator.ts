@@ -1,3 +1,5 @@
+import { parseArguments } from './utils.ts'
+
 interface ExerciseRating {
   periodLength: number,
   trainingDays: number,
@@ -37,4 +39,11 @@ const calculateExercises = (period : number[], target: number): ExerciseRating =
   }
 }
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2))
+try {
+  const [target, ...period] = parseArguments(process.argv, 0)
+  console.log(calculateExercises(period, target))
+} catch (error: unknown) {
+  let errorMessage = 'Something bad happend.'
+  if (error instanceof Error) errorMessage += ' Error: ' + error.message
+  console.log(errorMessage)
+}
