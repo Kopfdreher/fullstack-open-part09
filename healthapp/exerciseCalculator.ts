@@ -21,7 +21,7 @@ const getRatingDescription = (rating: number): string => {
   return 'please improve your plan';
 }
 
-const calculateExercises = (period : number[], target: number): ExerciseRating => {
+export const calculateExercises = (period : number[], target: number): ExerciseRating => {
   const periodLength = period.length;
   const trainingDays = period.filter(n => n > 0).length;
   const average = period.reduce((sum, n) => sum + n, 0) / period.length;
