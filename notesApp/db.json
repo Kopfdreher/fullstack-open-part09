@@ -1,0 +1,17 @@
+{
+  "notes": [
+    {
+      "content": "hello",
+      "id": "1PpbzN1-Rgk"
+    },
+    {
+      "content": "hello world",
+      "id": "Ym4Ryd9Kurc"
+    },
+    {
+      "content": "why",
+      "id": "j63Yu1KtrYQ"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
