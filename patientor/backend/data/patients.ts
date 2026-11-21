@@ -1,4 +1,5 @@
-import type { Patient } from '../types.ts';
+import type { Patient } from '../src/types.ts';
+
 const patients: Patient[] = [
     {
         "id": "d2773336-f723-11e9-8f0b-362b9e155667",
