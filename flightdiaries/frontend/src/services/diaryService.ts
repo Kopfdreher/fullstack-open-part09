@@ -1,12 +1,16 @@
 import axios from 'axios'
-import type { Diary } from '../types'
+import type { Diary, NewDiary } from '../types'
 
 const baseUrl = '/api/diaries'
 
-const getAll = () => {
-  return axios
-    .get<Diary[]>(baseUrl)
-    .then(response => response.data)
+const getAll = async () => {
+  const response = await axios.get<Diary[]>(baseUrl)
+  return response.data
 }
 
-export default { getAll }
+const create = async (object: NewDiary) => {
+  const response = await axios.post<Diary>(baseUrl, object)
+  return response.data
+}
+
+export default { getAll, create }
