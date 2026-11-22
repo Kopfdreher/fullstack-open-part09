@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useState } from 'react'
 import diaryService from '../services/diaryService'
-import type { Diary } from '../types'
+import { Weather, Visibility, type Diary } from '../types'
 
 interface DiaryFormProps {
   diaries: Diary[]
@@ -14,8 +14,8 @@ interface DiaryErrorResponse {
 
 const DiaryForm = ({ diaries, setDiaries }: DiaryFormProps) => {
   const [date, setDate] = useState('')
-  const [weather, setWeather] = useState('')
-  const [visibility, setVisibility] = useState('')
+  const [weather, setWeather] = useState<Weather | ''>('')
+  const [visibility, setVisibility] = useState<Visibility | ''>('')
   const [comment, setComment] = useState('')
   const [error, setError] = useState('')
 
@@ -35,6 +35,7 @@ const DiaryForm = ({ diaries, setDiaries }: DiaryFormProps) => {
       setWeather('')
       setVisibility('')
       setComment('')
+      setError('')
     } catch (e: unknown) {
       if (axios.isAxiosError<DiaryErrorResponse>(e)) {
         const backendError = e.response?.data?.error
@@ -58,34 +59,51 @@ const DiaryForm = ({ diaries, setDiaries }: DiaryFormProps) => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <h2>Add new entry</h2>
       <form onSubmit={diaryCreation}>
-        <div>
-          date
+        <fieldset>
+          <legend>date</legend>
           <input
+            type='date'
             value={date}
             onChange={(event) => setDate(event.target.value)}
           />
-        </div>
-        <div>
-          weather
-          <input
-            value={weather}
-            onChange={(event) => setWeather(event.target.value)}
-          />
-        </div>
-        <div>
-          visibility
-          <input
-            value={visibility}
-            onChange={(event) => setVisibility(event.target.value)}
-          />
-        </div>
-        <div>
-          comment
+        </fieldset>
+        <fieldset>
+          <legend>weather</legend>
+          {Object.values(Weather).map((value) => (
+            <label key={value}>
+              <input
+                type='radio'
+                name='weather'
+                value={value}
+                checked={weather === value}
+                onChange={() => setWeather(value)}
+              />
+              {value}
+            </label>
+          ))}
+        </fieldset>
+        <fieldset>
+          <legend>visibility</legend>
+          {Object.values(Visibility).map((value) => (
+            <label key={value}>
+              <input
+                type='radio'
+                name='visibility'
+                value={value}
+                checked={visibility === value}
+                onChange={() => setVisibility(value)}
+              />
+              {value}
+            </label>
+          ))}
+        </fieldset>
+        <fieldset>
+          <legend>comment</legend>
           <input
             value={comment}
             onChange={(event) => setComment(event.target.value)}
           />
-        </div>
+        </fieldset>
         <button type="submit">add</button>
       </form>
     </div>
