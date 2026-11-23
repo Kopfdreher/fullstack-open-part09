@@ -11,7 +11,6 @@ export enum Gender {
 }
 
 export interface BaseEntry {
-    id: string;
     description: string;
     date: string;
     specialist: string;
@@ -49,10 +48,12 @@ export interface OccupationalHealthcareEntry extends BaseEntry {
     };
 }
 
-export type Entry =
+export type NewEntry =
     | HospitalEntry
     | OccupationalHealthcareEntry
     | HealthCheckEntry;
+
+export type Entry = NewEntry & { id: string };
 
 export interface Patient {
   id: string;
