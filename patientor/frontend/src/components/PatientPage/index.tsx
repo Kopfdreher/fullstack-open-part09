@@ -1,10 +1,10 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { Patient, Diagnosis } from '../types';
-import patientService from '../services/patients';
+import { Patient, Diagnosis, Gender } from '../../types';
+import patientService from '../../services/patients';
 import { Box, Typography } from '@mui/material';
 import { Male, Female } from '@mui/icons-material';
-import { Gender } from '../types';
+import EntryDetails from './EntryDetails';
 
 interface Props {
   diagnoses: Diagnosis[];
@@ -38,20 +38,11 @@ const PatientPage = ({ diagnoses }: Props) => {
       <Typography>occupation: {patient.occupation}</Typography>
       <Typography>date of birth: {patient.dateOfBirth}</Typography><br/>
       <Typography variant="h6" sx={{ marginBottom: "0.5em" }}>entries</Typography>
-      {patient.entries.map(e =>
-        <div key={e.id}>
-          <Typography>
-            {e.date} {e.description}
-          </Typography>
-          <ul>
-            {e.diagnosisCodes?.map(c => 
-              <li key={c}><Typography>
-                {c} {diagnoses.find(d => d.code === c)?.name}
-              </Typography></li>
-            )}
-          </ul>
+      {patient.entries.map((entry) => (
+        <div key={entry.id} style={{ marginBottom: "1em" }}>
+          <EntryDetails entry={entry} diagnoses={diagnoses} />
         </div>
-      )}
+      ))}
     </Box>
   );
 };
