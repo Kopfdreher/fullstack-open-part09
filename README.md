@@ -17,3 +17,7 @@ Parts 0–5: [fullstack-open-part00-05](https://github.com/Kopfdreher/fullstack-
 | `flightdiaries/backend` | Flight diary API with Zod and non-sensitive responses |
 
 From each app directory: `npm install` and `npm run dev`. Tests: `npm test` from the test directory, with the matching server already running.
+
+## Certificate
+
+![Part 9 certificate](certificate-part09.png)
