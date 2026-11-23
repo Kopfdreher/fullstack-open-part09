@@ -10,7 +10,7 @@ router.get('/', (_req, res: Response<NonSensitivePatient[]>) => {
 });
 
 router.get('/:id', (req, res: Response<Patient>) => {
-  const patient = patientService.getPatient(req.params.id)
+  const patient = patientService.getPatient(req.params.id);
   if (patient) {
   res.send(patientService.getPatient(req.params.id));
   } else {

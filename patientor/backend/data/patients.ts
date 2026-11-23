@@ -46,6 +46,6 @@ const patients: Patient[] = [
     occupation: 'Digital evangelist',
     entries: [],
   },
-]
+];
 
 export default patients;
