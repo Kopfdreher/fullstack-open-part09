@@ -30,10 +30,21 @@ const PatientPage = () => {
 
   return (
     <Box>
-      <Typography variant="h5" sx={{ marginBottom: "0.5em" }}>{patient.name} {genderIcon(patient.gender)}</Typography>
+      <Typography variant="h4" sx={{ marginBottom: "0.5em" }}>{patient.name} {genderIcon(patient.gender)}</Typography>
       <Typography>ssn: {patient.ssn}</Typography>
       <Typography>occupation: {patient.occupation}</Typography>
-      <Typography>date of birth: {patient.dateOfBirth}</Typography>
+      <Typography>date of birth: {patient.dateOfBirth}</Typography><br/>
+      <Typography variant="h6" sx={{ marginBottom: "0.5em" }}>entries</Typography>
+      {patient.entries.map(e =>
+        <div>
+          <Typography>
+            {e.date} {e.description}
+          </Typography>
+          <ul>
+            {e.diagnosisCodes?.map(c => <li><Typography>{c}</Typography></li>)}
+          </ul>
+        </div>
+      )}
     </Box>
   );
 };
