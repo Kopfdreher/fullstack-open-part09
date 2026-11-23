@@ -9,7 +9,10 @@ import {
   Box,
   Alert,
 } from "@mui/material";
-import { Diagnosis, HealthCheckRating, NewEntry } from "../../types";
+import { Diagnosis, HealthCheckRating, NewEntry } from "../../../types";
+import HealthCheckFields from "./HealthCheckFields";
+import HospitalFields from "./HospitalFields";
+import OccupationalFields from "./OccupationalFields";
 
 interface Props {
   diagnoses: Diagnosis[];
@@ -21,13 +24,6 @@ interface Props {
 const entryTypes = ["HealthCheck", "Hospital", "OccupationalHealthcare"] as const;
 type EntryType = (typeof entryTypes)[number];
 
-const ratingOptions = [
-  { value: HealthCheckRating.Healthy, label: "Healthy" },
-  { value: HealthCheckRating.LowRisk, label: "Low risk" },
-  { value: HealthCheckRating.HighRisk, label: "High risk" },
-  { value: HealthCheckRating.CriticalRisk, label: "Critical risk" },
-];
-
 const AddEntryForm = ({ diagnoses, error, onSubmit, onCancel }: Props) => {
   const [type, setType] = useState<EntryType>("HealthCheck");
   const [description, setDescription] = useState("");
@@ -35,11 +31,8 @@ const AddEntryForm = ({ diagnoses, error, onSubmit, onCancel }: Props) => {
   const [specialist, setSpecialist] = useState("");
   const [diagnosisCodes, setDiagnosisCodes] = useState<string[]>([]);
   const [healthCheckRating, setHealthCheckRating] = useState<HealthCheckRating>(HealthCheckRating.Healthy);
-  const [dischargeDate, setDischargeDate] = useState("");
-  const [dischargeCriteria, setDischargeCriteria] = useState("");
-  const [employerName, setEmployerName] = useState("");
-  const [sickLeaveStart, setSickLeaveStart] = useState("");
-  const [sickLeaveEnd, setSickLeaveEnd] = useState("");
+  const [discharge, setDischarge] = useState({ date: "", criteria: "" });
+  const [occupational, setOccupational] = useState({ employerName: "", sickLeaveStart: "", sickLeaveEnd: "" });
 
   const addEntry = (event: SyntheticEvent) => {
     event.preventDefault();
@@ -53,12 +46,9 @@ const AddEntryForm = ({ diagnoses, error, onSubmit, onCancel }: Props) => {
     if (type === "HealthCheck") {
       onSubmit({ ...base, type, healthCheckRating });
     } else if (type === "Hospital") {
-      onSubmit({
-        ...base,
-        type,
-        discharge: { date: dischargeDate, criteria: dischargeCriteria },
-      });
+      onSubmit({ ...base, type, discharge });
     } else {
+      const { employerName, sickLeaveStart, sickLeaveEnd } = occupational;
       onSubmit({
         ...base,
         type,
@@ -136,79 +126,13 @@ const AddEntryForm = ({ diagnoses, error, onSubmit, onCancel }: Props) => {
       </Select>
 
       {type === "HealthCheck" && (
-        <>
-          <InputLabel id="rating-label" sx={{ marginTop: 2 }}>Health check rating</InputLabel>
-          <Select
-            labelId="rating-label"
-            name="healthCheckRating"
-            fullWidth
-            value={String(healthCheckRating)}
-            onChange={(event) => setHealthCheckRating(Number(event.target.value) as HealthCheckRating)}
-          >
-            {ratingOptions.map((option) => (
-              <MenuItem key={option.value} value={String(option.value)}>{option.label}</MenuItem>
-            ))}
-          </Select>
-        </>
+        <HealthCheckFields value={healthCheckRating} onChange={setHealthCheckRating} />
       )}
-
       {type === "Hospital" && (
-        <>
-          <TextField
-            label="Discharge date"
-            name="dischargeDate"
-            type="date"
-            fullWidth
-            required
-            value={dischargeDate}
-            onChange={({ target }) => setDischargeDate(target.value)}
-            slotProps={{ inputLabel: { shrink: true } }}
-            sx={{ marginTop: 1 }}
-          />
-          <TextField
-            label="Discharge criteria"
-            name="dischargeCriteria"
-            fullWidth
-            required
-            value={dischargeCriteria}
-            onChange={({ target }) => setDischargeCriteria(target.value)}
-            sx={{ marginTop: 1 }}
-          />
-        </>
+        <HospitalFields date={discharge.date} criteria={discharge.criteria} onChange={setDischarge} />
       )}
-
       {type === "OccupationalHealthcare" && (
-        <>
-          <TextField
-            label="Employer name"
-            name="employerName"
-            fullWidth
-            required
-            value={employerName}
-            onChange={({ target }) => setEmployerName(target.value)}
-            sx={{ marginTop: 1 }}
-          />
-          <TextField
-            label="Sick leave start"
-            name="sickLeaveStart"
-            type="date"
-            fullWidth
-            value={sickLeaveStart}
-            onChange={({ target }) => setSickLeaveStart(target.value)}
-            slotProps={{ inputLabel: { shrink: true } }}
-            sx={{ marginTop: 1 }}
-          />
-          <TextField
-            label="Sick leave end"
-            name="sickLeaveEnd"
-            type="date"
-            fullWidth
-            value={sickLeaveEnd}
-            onChange={({ target }) => setSickLeaveEnd(target.value)}
-            slotProps={{ inputLabel: { shrink: true } }}
-            sx={{ marginTop: 1 }}
-          />
-        </>
+        <OccupationalFields {...occupational} onChange={setOccupational} />
       )}
 
       {error && (
